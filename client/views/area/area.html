@@ -1,0 +1,110 @@
+<template name="allAreas">
+	<div id="map"></div>
+	<div style="display:none;">
+		{{#each areas}}
+			{{> areaPopup}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="areaPopup">
+	<div id="area_popup_{{_id}}">
+		<h4>{{name.en}}</h4>
+		<table class="table table-striped">
+			{{#each users}}
+				<tr>
+					<td>{{displayName}}</td>
+					<td><div class="btn btn-link remove-user">[-]</div></td>
+				</tr>
+			{{/each}}
+		</table>
+		<form class="main form">
+			<div class="form-group">
+				<label for="displayName" class="control-label"></label>
+				<div class="controls">
+					<input name="name" type="text" value="" placeholder="Name" class="form-control"/>
+				</div>
+			</div>
+			<input type="submit" value="Add" class="btn btn-primary">
+		</form>
+	</div>
+</template>
+
+<template name="showArea">
+	<h1>Lottery ending on {{endDate}}!</h1>
+	<h4>Prize Pool: {{totalPool}}g {{#if isAdmin}}(Bonus: {{bonus}}g){{/if}}</h4>
+	<div class="row">
+		<div class="col-md-4">
+			<h4>Current Participants</h4>
+			<ul class="list-group lotteryuser-list">
+				{{#each users}}
+					<li id="{{_id}}" class="list-group-item lotteryuser {{userIsWinner}}">
+						{{name}}
+						{{#if isAdmin}}
+							<div class="pull-right">
+								<span class="badge">{{entry}}g</span>
+								<a href="#" class="btn btn-link delete-user" style="padding-top:0;padding-bottom:0;">Delete</a>
+							</div>
+						{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+		<div class="col-md-8">
+			{{#with comments}}
+				{{{processMarkdown}}}
+			{{/with}}
+			{{#if isAdmin}}
+				{{> editComments}}
+			{{/if}}
+		</div>
+	</div>
+	<div class="row">
+		{{#if isAdmin}}
+			<div class="col-md-4">
+				{{> addLotteryUser}}
+			</div>
+			<div class="col-md-8 text-center" style="margin-top: 100px;">
+				<a href="#" class="btn btn-block btn-danger" name="winnerbutton"><h2>Choose Winner</h2></a>
+			</div>
+		{{/if}}
+	</div>
+</template>
+
+<template name="nolottery2">
+	<div>Sorry, no lottery active!</div>
+</template>
+
+<template name="addLotteryUser2">
+	<form class="main form">
+		<div class="form-group">
+			<label class="control-label" for="name">Name</label>
+			<div class="controls">
+				<input name="name" id="name" type="text" value="" placeholder="Name" class="form-control"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="name">Entry Amount (in gold)</label>
+			<div class="controls">
+				<input name="entry" id="entry" type="number" value="{{defaultEntryAmount}}" placeholder="10" class="form-control"/>
+			</div>
+		</div>
+		<input type="submit" value="Submit" class="btn btn-primary"/>
+	</form>
+</template>
+
+<template name="editLottery2">
+	<h1>Edit Lottery</h1>
+</template>
+
+<template name="editComments2">
+	<form class="main form">
+		<div class="form-group">
+			<!-- <label class="control-label" for="name">Name</label> -->
+			<div class="controls">
+				<textarea name="comments" id="" cols="100" rows="10">{{comments}}</textarea>
+			</div>
+		</div>
+		<input type="submit" value="Save" class="btn btn-primary"/>
+	</form>
+</template>

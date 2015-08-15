@@ -1,0 +1,42 @@
+<template name="admin">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<div class="alert alert-warning alert-dismissable" style="margin-top: 20px;">
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<strong>Warning!</strong> This is the earliest usable version of this system. As such, it has <strong>no</strong> input validation, either client- or server-side, and you should take great care when entering data that it conforms to whatever "type" it should be. That is, you have the ability to enter text into number inputs, but if you do, it will break any calculations that use that that number.
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Admin Dashboard</h1>
+			<hr>
+			<h2>Users</h2>
+			<table class="table table-hover">
+				<tr>
+					<th>Email</th>
+					<th>Admin?</th>
+				</tr>
+				<tbody>
+					{{#each users}}
+						<tr>
+							<td>{{userEmail}}</td>
+							<td>{{> adminToggle}}</td>
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</template>
+
+<template name="adminToggle">
+	{{#if userIsAdmin}}
+		<input type="checkbox" name="adminRadio" checked>
+	{{else}}
+		<input type="checkbox" name="adminRadio">
+	{{/if}}
+</template>

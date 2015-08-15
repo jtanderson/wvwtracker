@@ -1,12 +1,5 @@
 // Subscriptions, Meteor.startup
 
-Template.lottery.helpers({
-	current: function(){
-		var lotto = Lotteries.current();
-		return lotto;
-	}
-});
-
 Template.allAreas.onRendered(
 	function(){
 		"use strict";

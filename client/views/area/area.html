@@ -5,6 +5,8 @@
 			{{> areaPopup}}
 		{{/each}}
 	</div>
+
+	{{> firstTimeModal}}
 </template>
 
 <template name="areaPopup">
@@ -30,81 +32,29 @@
 	</div>
 </template>
 
-<template name="showArea">
-	<h1>Lottery ending on {{endDate}}!</h1>
-	<h4>Prize Pool: {{totalPool}}g {{#if isAdmin}}(Bonus: {{bonus}}g){{/if}}</h4>
-	<div class="row">
-		<div class="col-md-4">
-			<h4>Current Participants</h4>
-			<ul class="list-group lotteryuser-list">
-				{{#each users}}
-					<li id="{{_id}}" class="list-group-item lotteryuser {{userIsWinner}}">
-						{{name}}
-						{{#if isAdmin}}
-							<div class="pull-right">
-								<span class="badge">{{entry}}g</span>
-								<a href="#" class="btn btn-link delete-user" style="padding-top:0;padding-bottom:0;">Delete</a>
-							</div>
-						{{/if}}
-					</li>
-				{{/each}}
-			</ul>
-		</div>
-		<div class="col-md-8">
-			{{#with comments}}
-				{{{processMarkdown}}}
-			{{/with}}
-			{{#if isAdmin}}
-				{{> editComments}}
-			{{/if}}
-		</div>
+<template name="firstTimeModal">
+	<div id="firstTimeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Welcome!</h4>
+				</div>
+				<div class="modal-body">
+					<p>This is a prototype of a tool to keep track of WvW scouting, upgrading, and roaming coverage in Guild Wars 2. Contingent on usuage/interest, development will be ongoing.</p>
+
+					<h2>How to use:</h2>
+
+					<p>Right now there is basically one feature: you can add your name (honor system for now) to an objective by clicking that objective icon on the map, putting your name in the box, and clicking "Add". This designates that you are upgrading that objective, or scouting/roaming nearby. When finished, kindly remove your name from the list by clicking the minus sign next to your name.</p>
+
+					<hr>
+
+					<p>Questions? Check the <a href="/about">About page</a> or contact DasMoose ingame or on the GoM server website.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
 	</div>
-	<div class="row">
-		{{#if isAdmin}}
-			<div class="col-md-4">
-				{{> addLotteryUser}}
-			</div>
-			<div class="col-md-8 text-center" style="margin-top: 100px;">
-				<a href="#" class="btn btn-block btn-danger" name="winnerbutton"><h2>Choose Winner</h2></a>
-			</div>
-		{{/if}}
-	</div>
-</template>
-
-<template name="nolottery2">
-	<div>Sorry, no lottery active!</div>
-</template>
-
-<template name="addLotteryUser2">
-	<form class="main form">
-		<div class="form-group">
-			<label class="control-label" for="name">Name</label>
-			<div class="controls">
-				<input name="name" id="name" type="text" value="" placeholder="Name" class="form-control"/>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label" for="name">Entry Amount (in gold)</label>
-			<div class="controls">
-				<input name="entry" id="entry" type="number" value="{{defaultEntryAmount}}" placeholder="10" class="form-control"/>
-			</div>
-		</div>
-		<input type="submit" value="Submit" class="btn btn-primary"/>
-	</form>
-</template>
-
-<template name="editLottery2">
-	<h1>Edit Lottery</h1>
-</template>
-
-<template name="editComments2">
-	<form class="main form">
-		<div class="form-group">
-			<!-- <label class="control-label" for="name">Name</label> -->
-			<div class="controls">
-				<textarea name="comments" id="" cols="100" rows="10">{{comments}}</textarea>
-			</div>
-		</div>
-		<input type="submit" value="Save" class="btn btn-primary"/>
-	</form>
 </template>

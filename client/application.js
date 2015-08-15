@@ -4,6 +4,13 @@ Template.allAreas.onRendered(
 	function(){
 		"use strict";
 
+		if (!document.cookie.match("firstTime=")){
+			$('#firstTimeModal').on('hidden.bs.modal', function(e){
+				document.cookie = "firstTime=false;max-age=31536e3";
+			});
+			$('#firstTimeModal').modal();
+		}
+
 		var map, southWest, northEast;
 
 		var unproject = function(coord) {
@@ -22,10 +29,6 @@ Template.allAreas.onRendered(
 		}).setView([0, 0], 0);
 
 		map.on("click", function(e){
-			console.log("You clicked the map at " + map.project(e.latlng));
-			console.log(e.latlng);
-			console.log(e.layerPoint);
-			console.log(e.containerPoint);
 		});
 
 		var southWest = [-250, 75];

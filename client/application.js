@@ -66,9 +66,34 @@ Template.allAreas.onRendered(
 				L.marker(map.unproject(a.coords,6), {icon: L.icon({
 					iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
 					iconSize: [32,32]
-				}) }).addTo(map).bindPopup(
+				})}).addTo(map).bindPopup(
 					template.find('#area_popup_'+a._id)
 				);
+
+				var marker = L.marker(map.unproject(a.coords,6), {icon: L.divIcon({
+					// html: template.find('#area_counter_'+a._id).innerHTML,
+					html: a.userCount(),
+					className: 'areaCounter',
+					iconAnchor: [20,20]
+				})});
+
+				marker.addTo(map);
+
+				// We need some closure magic...
+				var trackerFn = function(){
+					var tmpArea = areas[i];
+					var tmpMarker = marker;
+					return function(){
+						var count = Session.get('area_count_'+tmpArea._id);
+						tmpMarker.setIcon(L.divIcon({
+							html: tmpArea.userCount(),
+							className: 'areaCounter',
+							iconAnchor: [20,20]
+						}));
+					};
+				}();
+
+				Tracker.autorun(trackerFn);
 			}
 		};
 	}
@@ -78,12 +103,21 @@ Template.allAreas.events({
 	'submit form': function(e){
 		e.preventDefault();
 
+		var nameInput = $(e.target).find('[name=name]').val();
+
+		if ( nameInput.length == 0 ){
+			return false;
+		}
+
 		var user = {
 			area_id: this._id,
-			displayName: $(e.target).find('[name=name]').val()
+			displayName: nameInput
 		};
 
+		var area = Areas.findOne({_id: this._id});
+
 		AreaUsers.insert(user);
+		Session.set('area_count_'+area._id, area.userCount());
 		$(e.target).find('[name=name]').val('');
 	},
 	'click .remove-user': function(e){

@@ -21,3 +21,7 @@ Meteor.publish("users", function(){
 Meteor.publish("roles", function(){
 	return Meteor.roles.find();
 });
+
+Meteor.publish("mapevents", function(){
+	return MapEvents.find();
+})

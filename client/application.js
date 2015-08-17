@@ -119,11 +119,40 @@ Template.allAreas.events({
 		AreaUsers.insert(user);
 		Session.set('area_count_'+area._id, area.userCount());
 		$(e.target).find('[name=name]').val('');
+
+		var d = Date.now();
+		var offsetMilliseconds = (new Date()).getTimezoneOffset()*60*1000;
+
+		var mapevent = {
+			area_id: this._id,
+			time: d - offsetMilliseconds,
+			message: user.displayName + " has arrived at " + area.name.en + "."
+		}
+
+		MapEvents.insert(mapevent);
 	},
 	'click .remove-user': function(e){
 		e.preventDefault();
 		AreaUsers.remove(this._id);
+
+		var d = Date.now();
+		var offsetMilliseconds = (new Date()).getTimezoneOffset()*60*1000;
+		var area = Areas.findOne({_id: this.area_id});
+
+		var mapevent = {
+			area_id: this._id,
+			time: d - offsetMilliseconds,
+			message: this.displayName + " has left " + area.name.en + "."
+		}
+
+		MapEvents.insert(mapevent);
 	},
+});
+
+Template.eventLog.helpers({
+	mapevents: function(){
+		return MapEvents.find({}, {sort: {time: -1}, limit: 50});
+	}
 });
 
 
@@ -132,7 +161,7 @@ Template.admin.events({
 
 Template.admin.helpers({
 	users: function(){
-		return Meteor.users.find().fetch();
+		return Meteor.users.find();
 	},
 	userEmail: function(user){
 		return this.emails[0].address;

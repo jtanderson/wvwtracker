@@ -6,6 +6,8 @@
 		{{/each}}
 	</div>
 
+	{{> eventLog}}
+
 	{{> firstTimeModal}}
 </template>
 
@@ -35,6 +37,33 @@
 <template name="areaCounter">
 	<div class="areaCounter" id="area_counter_{{_id}}">
 		{{userCount}}
+	</div>
+</template>
+
+<template name="eventLog">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				<h4>Event Log</h4>
+			</div>
+		</div>
+		<div class="event-log">
+		{{#each mapevents}}
+			<div class="row">
+				<div class="col-md-4">
+					{{humanTime}}
+				</div>
+				<div class="col-md-8">
+					{{message}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<hr>
+				</div>
+			</div>
+		{{/each}}
+		</div>
 	</div>
 </template>
 

@@ -70,11 +70,8 @@ Meteor.startup(function(){
 							var json_objective = match_details["maps"][i]["objectives"][j];
 							var db_objective = Areas.findOne({"api_id": json_objective["id"].toString()});
 							if ( db_objective && db_objective.type !== "ruin" && db_objective.owner !==  json_objective["owner"].toLowerCase() ){
-								var d = Date.now();
-								var offsetMilliseconds = (new Date()).getTimezoneOffset()*60*1000;
 								MapEvents.insert({
 									area_id: db_objective._id,
-									time: d - offsetMilliseconds,
 									message: db_objective.name.en + " changed to " + json_objective["owner"] + " from " + db_objective.owner
 								});
 								Areas.update(db_objective, {$set: {owner: json_objective["owner"].toLowerCase()}});

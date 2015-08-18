@@ -144,12 +144,8 @@ Template.allAreas.events({
 		// Session.set('area_count_'+area._id, area.userCount());
 		$(e.target).find('[name=name]').val('');
 
-		var d = Date.now();
-		var offsetMilliseconds = (new Date()).getTimezoneOffset()*60*1000;
-
 		var mapevent = {
 			area_id: this._id,
-			time: d - offsetMilliseconds,
 			message: user.displayName + " has arrived at " + area.name.en + "."
 		}
 
@@ -159,13 +155,10 @@ Template.allAreas.events({
 		e.preventDefault();
 		AreaUsers.remove(this._id);
 
-		var d = Date.now();
-		var offsetMilliseconds = (new Date()).getTimezoneOffset()*60*1000;
 		var area = Areas.findOne({_id: this.area_id});
 
 		var mapevent = {
 			area_id: this._id,
-			time: d - offsetMilliseconds,
 			message: this.displayName + " has left " + area.name.en + "."
 		}
 

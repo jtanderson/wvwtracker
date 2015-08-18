@@ -14,11 +14,13 @@ Obviously anybody can clone this repository and `meteor deploy` it to get their 
 - [x] Add/remove names to various objectives
 - [x] Show counter next to objectives, how many names it has (give an easier way to scan the map)
 - [ ] More objective marker detail
-  - [ ] Change icon colors to reflect current owner (similar to wvwintel.com)
+  - [x] Change icon colors to reflect current owner (similar to wvwintel.com)
   - [ ] Show current upgrades (also similar to wvwintel.com)
   - [ ] Show RI timer
   - [ ] Show guild claiming
 - [ ] Event log
+  - [x] Record users logging into different locations and leaving
+  - [x] Record objectives changing hands
   - [ ] Categorize different events (objective changes hands, users arrive/leave locations)
   - [ ] Filter by map (EB, various borderlands)
 - [ ] Add preset map zooms (similar to wvwintel.com), click button, zoom to one particular map, automatically filter event log to that map

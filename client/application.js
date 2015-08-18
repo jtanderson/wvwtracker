@@ -63,28 +63,52 @@ Template.allAreas.onRendered(
 			var a = areas[i];
 
 			if ( a.type != 'ruin' ){
-				L.marker(map.unproject(a.coords,6), {icon: L.icon({
+				var iconMarker = L.marker(map.unproject(a.coords,6), {icon: L.icon({
 					iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
-					iconSize: [32,32]
-				})}).addTo(map).bindPopup(
+					iconSize: [32,32],
+					className: "objective_"+a._id + " " + a.owner+"-objective"
+				})});
+				iconMarker.addTo(map).bindPopup(
 					template.find('#area_popup_'+a._id)
 				);
 
-				var marker = L.marker(map.unproject(a.coords,6), {icon: L.divIcon({
+				// For some reason reactivity with this doesn't play as nicely as the counter...
+				var iconTrackerFn = function(){
+					var tmpArea = areas[i];
+					var tmpMarker = iconMarker;
+					var tmpUrl = fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt;
+					return function(c){
+						var thisArea = Areas.findOne({_id: tmpArea._id});
+						var blinkClass = "";
+						if ( ! c.firstRun ){
+							blinkClass = " just-changed";
+						}
+						var color = thisArea.getOwner();
+						tmpMarker.setIcon(L.icon({
+							iconUrl: tmpUrl,
+							iconSize: [32,32],
+							className: "objective_"+tmpArea._id+" "+color+"-objective"+blinkClass
+						}));
+					}
+				}();
+
+				Tracker.autorun(iconTrackerFn);
+
+				var countMarker = L.marker(map.unproject(a.coords,6), {icon: L.divIcon({
 					// html: template.find('#area_counter_'+a._id).innerHTML,
 					html: a.userCount(),
 					className: 'areaCounter',
 					iconAnchor: [20,20]
 				})});
 
-				marker.addTo(map);
+				countMarker.addTo(map);
 
 				// We need some closure magic...
-				var trackerFn = function(){
+				var countTrackerFn = function(){
 					var tmpArea = areas[i];
-					var tmpMarker = marker;
+					var tmpMarker = countMarker;
 					return function(){
-						var count = Session.get('area_count_'+tmpArea._id);
+						// var count = Session.get('area_count_'+tmpArea._id);
 						tmpMarker.setIcon(L.divIcon({
 							html: tmpArea.userCount(),
 							className: 'areaCounter',
@@ -93,7 +117,7 @@ Template.allAreas.onRendered(
 					};
 				}();
 
-				Tracker.autorun(trackerFn);
+				Tracker.autorun(countTrackerFn);
 			}
 		};
 	}
@@ -117,7 +141,7 @@ Template.allAreas.events({
 		var area = Areas.findOne({_id: this._id});
 
 		AreaUsers.insert(user);
-		Session.set('area_count_'+area._id, area.userCount());
+		// Session.set('area_count_'+area._id, area.userCount());
 		$(e.target).find('[name=name]').val('');
 
 		var d = Date.now();

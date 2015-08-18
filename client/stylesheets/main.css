@@ -24,3 +24,57 @@
 	overflow-y: scroll;
 	border-top: 1px solid black;
 }
+
+.green-objective {
+	-filter: sepia(100%) hue-rotate(80deg) brightness(100%) saturate(300%);
+	-moz-filter: sepia(100%) hue-rotate(80deg) brightness(100%) saturate(300%);
+	-webkit-filter: sepia(100%) hue-rotate(80deg) brightness(100%) saturate(300%);
+}
+
+.blue-objective {
+	-filter: sepia(100%) hue-rotate(160deg) brightness(110%) saturate(300%);
+	-webkit-filter: sepia(100%) hue-rotate(160deg) brightness(110%) saturate(300%);
+	-moz-filter: sepia(100%) hue-rotate(160deg) brightness(110%) saturate(300%);
+}
+
+.red-objective {
+	-filter: sepia(100%) hue-rotate(320deg) brightness(90%) saturate(300%);
+	-webkit-filter: sepia(100%) hue-rotate(320deg) brightness(90%) saturate(300%);
+	-moz-filter: sepia(100%) hue-rotate(320deg) brightness(90%) saturate(300%);
+}
+
+.just-changed {
+	animation: blink 1s;
+    animation-iteration-count: 3;
+}
+
+.neutral-objective {
+	-filter: none;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes sharp-blink {
+    0% {
+        opacity: 1;
+    }
+    49% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}

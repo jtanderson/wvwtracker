@@ -44,14 +44,6 @@ Template.allAreas.onRendered(
 		  bounds: new L.LatLngBounds(southWest, northEast)
 		}).addTo(map);
 
-		var fileSpecs = {
-			"wvw_camp":{"file_id":102532,"signature":"015D365A08AAE105287A100AAE04529FDAE14155"},
-			"wvw_tower":{"file_id":102531,"signature":"ABEC80C79576A103EA33EC66FCB99B77291A2F0D"},
-			"wvw_keep":{"file_id":102535,"signature":"DB580419C8AD9449309A96C8E7C3D61631020EBB"},
-			"wvw_castle":{"file_id":102608,"signature":"F0F1DA1C807444F4DF53090343F43BED02E50523"},
-			"wvw_ruin": {"file_id":638725,"signature":""} //1502A342DF603C06910E0F0FFF0C010AC928B946
-		};
-
 		var fileUrl = "https://render.guildwars2.com/file/";
 		var fmt = "png";
 
@@ -64,9 +56,9 @@ Template.allAreas.onRendered(
 
 			if ( a.type != 'ruin' ){
 				var iconMarker = L.marker(map.unproject(a.coords,6), {icon: L.icon({
-					iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
-					iconSize: [32,32],
-					className: "objective_"+a._id + " " + a.owner+"-objective"
+					// iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
+					iconUrl: '/img/'+a.type+"_"+a.owner+"."+fmt,
+					iconSize: [32,32]
 				})});
 				iconMarker.addTo(map).bindPopup(
 					template.find('#area_popup_'+a._id)
@@ -76,7 +68,6 @@ Template.allAreas.onRendered(
 				var iconTrackerFn = function(){
 					var tmpArea = areas[i];
 					var tmpMarker = iconMarker;
-					var tmpUrl = fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt;
 					return function(c){
 						var thisArea = Areas.findOne({_id: tmpArea._id});
 						var blinkClass = "";
@@ -85,9 +76,9 @@ Template.allAreas.onRendered(
 						}
 						var color = thisArea.getOwner();
 						tmpMarker.setIcon(L.icon({
-							iconUrl: tmpUrl,
+							iconUrl: '/img/'+thisArea.type+"_"+thisArea.owner+".png",
 							iconSize: [32,32],
-							className: "objective_"+tmpArea._id+" "+color+"-objective"+blinkClass
+							className: blinkClass
 						}));
 					}
 				}();

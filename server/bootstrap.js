@@ -72,6 +72,7 @@ Meteor.startup(function(){
 							if ( db_objective && db_objective.type !== "ruin" && db_objective.owner !==  json_objective["owner"].toLowerCase() ){
 								MapEvents.insert({
 									area_id: db_objective._id,
+									tags: ["owner-change"],
 									message: db_objective.name.en + " changed to " + json_objective["owner"] + " from " + db_objective.owner
 								});
 								Areas.update(db_objective, {$set: {owner: json_objective["owner"].toLowerCase()}});

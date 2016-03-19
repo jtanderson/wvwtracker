@@ -21,9 +21,9 @@ Obviously anybody can clone this repository and `meteor deploy` it to get their 
 - [ ] Event log
   - [x] Record users logging into different locations and leaving
   - [x] Record objectives changing hands
-  - [ ] Categorize different events (objective changes hands, users arrive/leave locations)
+  - [x] Tag different events (objective changes hands, users arrive/leave locations)
   - [ ] Filter by map (EB, various borderlands)
-- [ ] Add preset map zooms (similar to wvwintel.com), click button, zoom to one particular map, automatically filter event log to that map
+- [x] Add preset map zooms (similar to wvwintel.com), click button, zoom to one particular map, automatically filter event log to that map
 - [x] User signup/authentication
 - [ ] Integrate user accounts, create profiles, groups, etc.
 - [ ] Restrict access to only authenticated (and approved?) users

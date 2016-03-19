@@ -269,6 +269,7 @@ Template.allAreas.events({
 
     var mapevent = {
       area_id: this._id,
+      tags: ["user-arrive"],
       message: user.displayName + " has arrived at " + area.name + "."
     }
 
@@ -282,6 +283,7 @@ Template.allAreas.events({
 
     var mapevent = {
       area_id: this._id,
+      tags: ["user-leave"],
       message: this.displayName + " has left " + area.name + "."
     }
 
@@ -289,12 +291,33 @@ Template.allAreas.events({
   },
 });
 
+Template.eventLog.onRendered(function(){
+  Session.setDefault('owner-event-toggle', true);
+  Session.setDefault('user-event-toggle', true);
+
+  $('#owner-event-toggle').prop('checked', Session.get('owner-event-toggle'));
+  $('#user-event-toggle').prop('checked', Session.get('user-event-toggle'));
+});
+
 Template.eventLog.helpers({
   mapevents: function(){
-    return MapEvents.find({}, {sort: {time: -1}, limit: 50});
+    var query = {};
+    var inArray = [];
+    if ( Session.get('user-event-toggle') ){
+      inArray = inArray.concat(["user-leave", "user-arrive"]);
+    }
+    if ( Session.get('owner-event-toggle') ){
+      inArray = inArray.concat(["owner-change"]);
+    }
+    return MapEvents.find({tags: {$in: inArray}}, {sort: {time: -1}, limit: 50});
   }
 });
 
+Template.eventLog.events({
+  'change #user-event-toggle, change #owner-event-toggle': function(e){
+    Session.set($(e.target).attr('id'), $(e.target).is(':checked'));
+  }
+})
 
 Template.admin.events({
 });

@@ -72,7 +72,6 @@ Meteor.startup(function(){
               var db_objective = Areas.findOne({"api_id": json_objective["id"].toString()});
               if ( db_objective && db_objective.coord != undefined ){
                 if ( db_objective && ['keep','tower','castle','camp'].indexOf(db_objective.type.toLowerCase()) > -1 && db_objective.owner !==  json_objective["owner"].toLowerCase() ){
-                  console.log(db_objective);
                   MapEvents.insert({
                     area_id: db_objective._id,
                     message: db_objective.name + " changed to " + json_objective["owner"] + " from " + db_objective.owner

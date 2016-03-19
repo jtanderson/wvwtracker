@@ -43,8 +43,24 @@
 <template name="eventLog">
   <div class="container">
     <div class="row">
+      <div class="col-md-8">
+        <h3>Event Log</h3>
+      </div>
       <div class="col-md-4">
-        <h4>Event Log</h4>
+        <div class="" style="margin-top: 10px;">
+          <form action="">
+            <div class="checkbox">
+              <label>
+                <input id="user-event-toggle" type="checkbox"> Include User Events
+              </label>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input id="owner-event-toggle" type="checkbox"> Include Ownership Events
+              </label>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     <div class="event-log">
@@ -82,7 +98,9 @@
 
           <h2>How to use:</h2>
 
-          <p>Right now there is basically one feature: you can add your name (honor system for now) to an objective by clicking that objective icon on the map, putting your name in the box, and clicking "Add". This designates that you are upgrading that objective, or scouting/roaming nearby. When finished, kindly remove your name from the list by clicking the minus sign next to your name.</p>
+          <p>Right now there is one main feature: you can add your name (honor system for now) to an objective by clicking that objective icon on the map, putting your name in the box, and clicking "Add". This designates that you are upgrading that objective, or scouting/roaming nearby. When finished, kindly remove your name from the list by clicking the minus sign next to your name.</p>
+
+          <p><b>Update!</b> I've added color tracking based on current owner (udpates roughly every 10 seconds) and an Event Log with tag filtering, below the map. To make it easier to to scroll down to the event log, scroll to zoom has been disabled on the map but one can still use the controls in the top-left and pan around as desired. There are also custom zoom buttons for each BL map. Enjoy!</p>
 
           <hr>
 

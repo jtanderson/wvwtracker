@@ -1,97 +1,97 @@
 <template name="allAreas">
-	<div id="map"></div>
-	<div style="display:none;">
-		{{#each areas}}
-			{{> areaPopup}}
-		{{/each}}
-	</div>
+  <div id="map"></div>
+  <div style="display:none;">
+    {{#each areas}}
+      {{> areaPopup}}
+    {{/each}}
+  </div>
 
-	{{> eventLog}}
+  {{> eventLog}}
 
-	{{> firstTimeModal}}
+  {{> firstTimeModal}}
 </template>
 
 <template name="areaPopup">
-	<div id="area_popup_{{_id}}">
-		<h4>{{name.en}}</h4>
-		<table class="table table-striped">
-			{{#each users}}
-				<tr>
-					<td>{{displayName}}</td>
-					<td><div class="btn btn-link remove-user">[-]</div></td>
-				</tr>
-			{{/each}}
-		</table>
-		<form class="main form">
-			<div class="form-group">
-				<label for="displayName" class="control-label"></label>
-				<div class="controls">
-					<input name="name" type="text" value="" placeholder="Name" class="form-control"/>
-				</div>
-			</div>
-			<input type="submit" value="Add" class="btn btn-primary">
-		</form>
-	</div>
+  <div id="area_popup_{{_id}}" class="objective_popup">
+    <h4>{{name}}</h4>
+    <table class="table table-striped">
+      {{#each users}}
+        <tr>
+          <td>{{displayName}}</td>
+          <td><div class="btn btn-link remove-user">[-]</div></td>
+        </tr>
+      {{/each}}
+    </table>
+    <form class="main form">
+      <div class="form-group">
+        <label for="displayName" class="control-label"></label>
+        <div class="controls">
+          <input name="name" type="text" value="" placeholder="Name" class="form-control"/>
+        </div>
+      </div>
+      <input type="submit" value="Add" class="btn btn-primary">
+    </form>
+  </div>
 </template>
 
 <template name="areaCounter">
-	<div class="areaCounter" id="area_counter_{{_id}}">
-		{{userCount}}
-	</div>
+  <div class="areaCounter" id="area_counter_{{_id}}">
+    {{userCount}}
+  </div>
 </template>
 
 <template name="eventLog">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4">
-				<h4>Event Log</h4>
-			</div>
-		</div>
-		<div class="event-log">
-		{{#each mapevents}}
-			<div class="row">
-				<div class="col-md-4">
-					{{humanTime}}
-				</div>
-				<div class="col-md-8">
-					{{message}}
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<hr>
-				</div>
-			</div>
-		{{/each}}
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h4>Event Log</h4>
+      </div>
+    </div>
+    <div class="event-log">
+    {{#each mapevents}}
+      <div class="row">
+        <div class="col-md-4">
+          {{humanTime}}
+        </div>
+        <div class="col-md-8">
+          {{message}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <hr>
+        </div>
+      </div>
+    {{/each}}
+    </div>
+  </div>
 </template>
 
 <template name="firstTimeModal">
-	<div id="firstTimeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Welcome!</h4>
-				</div>
-				<div class="modal-body">
-					<p>This is a prototype of a tool to keep track of WvW scouting, upgrading, and roaming coverage in Guild Wars 2. Contingent on usuage/interest, development will be ongoing.</p>
+  <div id="firstTimeModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Welcome!</h4>
+        </div>
+        <div class="modal-body">
+          <p>This is a prototype of a tool to keep track of WvW scouting, upgrading, and roaming coverage in Guild Wars 2. Contingent on usuage/interest, development will be ongoing.</p>
 
-					<p>This was developed and tested almost exclusivly in Google Chrome 44. Any reasonably modern browser should work but if you have problems, this could be a factor.</p>
+          <p>This was developed and tested almost exclusivly in Google Chrome 44. Any reasonably modern browser should work but if you have problems, this could be a factor.</p>
 
-					<h2>How to use:</h2>
+          <h2>How to use:</h2>
 
-					<p>Right now there is basically one feature: you can add your name (honor system for now) to an objective by clicking that objective icon on the map, putting your name in the box, and clicking "Add". This designates that you are upgrading that objective, or scouting/roaming nearby. When finished, kindly remove your name from the list by clicking the minus sign next to your name.</p>
+          <p>Right now there is basically one feature: you can add your name (honor system for now) to an objective by clicking that objective icon on the map, putting your name in the box, and clicking "Add". This designates that you are upgrading that objective, or scouting/roaming nearby. When finished, kindly remove your name from the list by clicking the minus sign next to your name.</p>
 
-					<hr>
+          <hr>
 
-					<p>Questions? Check the <a href="/about">About page</a> or contact DasMoose ingame or on the GoM server website.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div>
+          <p>Questions? Check the <a href="/about">About page</a> or contact DasMoose ingame or on the GoM server website.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
 </template>

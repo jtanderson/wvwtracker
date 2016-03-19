@@ -1,43 +1,42 @@
 Migrations.add({
-	version: 1,
-	name: "Set jtanderson31@gmail.com to be an admin user.",
-	up: function(){
-		var user = Meteor.users.findOne({"emails.address": "jtanderson31@gmail.com"});
-		if ( user && ! Roles.userIsInRole(user, 'admin') ){
-			Roles.addUsersToRoles(user._id, "admin");
-		}
-	}
+  version: 1,
+  name: "Set jtanderson31@gmail.com to be an admin user.",
+  up: function(){
+    var user = Meteor.users.findOne({"emails.address": "jtanderson31@gmail.com"});
+    if ( user && ! Roles.userIsInRole(user, 'admin') ){
+      Roles.addUsersToRoles(user._id, "admin");
+    }
+  }
 });
 
 Migrations.add({
-	version: 2,
-	name: "Add WvW Objective IDs for the API.",
-	up: function (){
-		var areaObjects = [{
-			"score":25,
-			"coords":[10766,13656],
-			"type":"keep",
-			"name":{
-				"de":"Aussichtspunkt",
-				"en":"Overlook",
-				"es":"Mirador",
-				"fr":"Belvédère"
-			},
-			"api_id":"1"
-		},{"score":25,"coords":[11497,15121],"type":"keep","name":{"de":"Tal","en":"Valley","es":"Valle","fr":"Vallée"},"api_id":"2"},{"score":25,"coords":[9606,15132],"type":"keep","name":{"de":"Tiefland","en":"Lowlands","es":"Vega","fr":"Basses terres"},"api_id":"3"},{"score":5,"coords":[10211,15437],"type":"camp","name":{"de":"Golanta-Lichtung","en":"Golanta Clearing","es":"Claro Golanta","fr":"Clairière de Golanta"},"api_id":"4"},{"score":5,"coords":[11226,13754],"type":"camp","name":{"de":"Pangloss-Anhöhe","en":"Pangloss Rise","es":"Colina Pangloss","fr":"Montée de Pangloss"},"api_id":"5"},{"score":5,"coords":[9850,13561],"type":"camp","name":{"de":"Speldan Kahlschlag","en":"Speldan Clearcut","es":"Claro Espeldia","fr":"Forêt rasée de Speldan"},"api_id":"6"},{"score":5,"coords":[11030,15559],"type":"camp","name":{"de":"Danelon-Passage","en":"Danelon Passage","es":"Pasaje Danelon","fr":"Passage Danelon"},"api_id":"7"},{"score":5,"coords":[11571,14468],"type":"camp","name":{"de":"Umberlichtung-Forst","en":"Umberglade Woods","es":"Bosques Clarosombra","fr":"Bois d'Ombreclair"},"api_id":"8"},{"score":35,"coords":[10608,14583],"type":"castle","name":{"de":"Schloss Steinnebel","en":"Stonemist Castle","es":"Castillo Piedraniebla","fr":"Château Brumepierre"},"api_id":"9"},{"score":5,"coords":[9574,14435],"type":"camp","name":{"de":"Schurkenbruch","en":"Rogue's Quarry","es":"Cantera del Pícaro","fr":"Carrière des voleurs"},"api_id":"10"},{"score":10,"coords":[9416,14793],"type":"tower","name":{"de":"Aldons Vorsprung","en":"Aldon's Ledge","es":"Cornisa de Aldon","fr":"Corniche d'Aldon"},"api_id":"11"},{"score":10,"coords":[9908,14626],"type":"tower","name":{"de":"Wildbachstrecke","en":"Wildcreek Run","es":"Pista Arroyosalvaje","fr":"Piste du Ruisseau sauvage"},"api_id":"12"},{"score":10,"coords":[9807,15409],"type":"tower","name":{"de":"Jerrifers Sumpfloch","en":"Jerrifer's Slough","es":"Cenagal de Jerrifer","fr":"Bourbier de Jerrifer"},"api_id":"13"},{"score":10,"coords":[10172,15082],"type":"tower","name":{"de":"Klovan-Senke","en":"Klovan Gully","es":"Barranco Klovan","fr":"Petit ravin de Klovan"},"api_id":"14"},{"score":10,"coords":[11456,15492],"type":"tower","name":{"de":"Langor-Schlucht","en":"Langor Gulch","es":"Barranco Langor","fr":"Ravin de Langor"},"api_id":"15"},{"score":10,"coords":[10852,15224],"type":"tower","name":{"de":"Quentinsee","en":"Quentin Lake","es":"Lago Quentin","fr":"Lac Quentin"},"api_id":"16"},{"score":10,"coords":[10257,13515],"type":"tower","name":{"de":"Mendons Spalt","en":"Mendon's Gap","es":"Zanja de Mendon","fr":"Faille de Mendon"},"api_id":"17"},{"score":10,"coords":[10190,14082],"type":"tower","name":{"de":"Anzalias-Pass","en":"Anzalias Pass","es":"Paso Anzalias","fr":"Col d'Anzalias"},"api_id":"18"},{"score":10,"coords":[11012,13849],"type":"tower","name":{"de":"Ogerwacht-Kanal","en":"Ogrewatch Cut","es":"Tajo de la Guardia del Ogro","fr":"Percée de Gardogre"},"api_id":"19"},{"score":10,"coords":[11093,13488],"type":"tower","name":{"de":"Veloka-Hang","en":"Veloka Slope","es":"Pendiente Veloka","fr":"Flanc de Veloka"},"api_id":"20"},{"score":10,"coords":[11157,14529],"type":"tower","name":{"de":"Durios-Schlucht","en":"Durios Gulch","es":"Barranco Durios","fr":"Ravin de Durios"},"api_id":"21"},{"score":10,"coords":[11768,14792],"type":"tower","name":{"de":"Bravost-Abhang","en":"Bravost Escarpment","es":"Escarpadura Bravost","fr":"Falaise de Bravost"},"api_id":"22"},{"score":25,"coords":[14058,12432],"type":"keep","name":{"de":"Festung","en":"Garrison","es":"Fuerte","fr":"Garnison"},"api_id":"23"},{"score":5,"coords":[14084,14041],"type":"camp","name":{"de":"Landgut des Champions","en":"Champion's demense","es":"Dominio del Campeón","fr":"Fief du champion"},"api_id":"24"},{"score":10,"coords":[13750,13344],"type":"tower","name":{"de":"Rotdornstrauch","en":"Redbriar","es":"Zarzarroja","fr":"Bruyerouge"},"api_id":"25"},{"score":10,"coords":[14582,13410],"type":"tower","name":{"de":"Grünsee","en":"Greenlake","es":"Lagoverde","fr":"Lac Vert"},"api_id":"26"},{"score":25,"coords":[13036,12956],"type":"keep","name":{"de":"Bucht des Aufstiegs","en":"Ascension Bay","es":"Bahía de la Ascensión","fr":"Baie de l'Ascension"},"api_id":"27"},{"score":10,"coords":[14686,12030],"type":"tower","name":{"de":"Horst der Morgendämmerung","en":"Dawn's Eyrie","es":"Aguilera del Alba","fr":"Promontoire de l'aube"},"api_id":"28"},{"score":5,"coords":[14088,11227],"type":"camp","name":{"de":"Der Geisterholm","en":"The Spiritholme","es":"La Isleta Espiritual","fr":"L'antre des esprits"},"api_id":"29"},{"score":10,"coords":[13446,12079],"type":"tower","name":{"de":"Wald-Freistatt","en":"Woodhaven","es":"Refugio Forestal","fr":"Gentesylve"},"api_id":"30"},{"score":25,"coords":[15253,12882],"type":"keep","name":{"de":"Askalion-Hügel","en":"Askalion Hills","es":"Colinas Askalion","fr":"Collines d'Askalion"},"api_id":"31"},{"score":25,"coords":[11669,10959],"type":"keep","name":{"de":"Etheron-Hügel","en":"Etheron Hills","es":"Colinas Etheron","fr":"Collines d'Etheron"},"api_id":"32"},{"score":25,"coords":[9453,11037],"type":"keep","name":{"de":"Traumbucht","en":"Dreaming Bay","es":"Bahía Onírica","fr":"Baie des rêves"},"api_id":"33"},{"score":5,"coords":[10497,12119],"type":"camp","name":{"de":"Sieger-Hütte","en":"Victors's Lodge","es":"Albergue del Vencedor","fr":"Pavillon du vainqueur"},"api_id":"34"},{"score":10,"coords":[10167,11423],"type":"tower","name":{"de":"Grünstrauch","en":"Greenbriar","es":"Zarzaverde","fr":"Vertebranche"},"api_id":"35"},{"score":10,"coords":[10998,11490],"type":"tower","name":{"de":"Blausee","en":"Bluelake","es":"Lagoazul","fr":"Lac bleu"},"api_id":"36"},{"score":25,"coords":[10474,10513],"type":"keep","name":{"de":"Festung","en":"Garrison","es":"Fuerte","fr":"Garnison"},"api_id":"37"},{"score":10,"coords":[9861,10159],"type":"tower","name":{"de":"Weitsicht","en":"Longview","es":"Vistaluenga","fr":"Longuevue"},"api_id":"38"},{"score":5,"coords":[10505,9307],"type":"camp","name":{"de":"Das Gottschwert","en":"The Godsword","es":"La Hoja Divina","fr":"L'Epée divine"},"api_id":"39"},{"score":10,"coords":[11102,10113],"type":"tower","name":{"de":"Felswand","en":"Cliffside","es":"Despeñadero","fr":"Flanc de falaise"},"api_id":"40"},{"score":25,"coords":[8085,13519],"type":"keep","name":{"de":"Shadaran-Hügel","en":"Shadaran Hills","es":"Colinas Shadaran","fr":"Collines de Shadaran"},"api_id":"41"},{"score":10,"coords":[7414,14051],"type":"tower","name":{"de":"Rotsee","en":"Redlake","es":"Lagorrojo","fr":"Rougelac"},"api_id":"42"},{"score":5,"coords":[6911,14679],"type":"camp","name":{"de":"Hütte des Helden","en":"Hero's Lodge","es":"Albergue del Héroe","fr":"Pavillon du Héros"},"api_id":"43"},{"score":25,"coords":[5869,13598],"type":"keep","name":{"de":"Schreckensfall-Bucht","en":"Dreadfall Bay","es":"Bahía Salto Aciago","fr":"Baie du Noir déclin"},"api_id":"44"},{"score":10,"coords":[6584,13983],"type":"tower","name":{"de":"Blaudornstrauch","en":"Bluebriar","es":"Zarzazul","fr":"Bruyazur"},"api_id":"45"},{"score":25,"coords":[6890,13073],"type":"keep","name":{"de":"Festung","en":"Garrison","es":"Fuerte","fr":"Garnison"},"api_id":"46"},{"score":10,"coords":[6279,12719],"type":"tower","name":{"de":"Sonnenlichthügel","en":"Sunnyhill","es":"Colina Soleada","fr":"Colline ensoleillée"},"api_id":"47"},{"score":5,"coords":[6046,12838],"type":"camp","name":{"de":"Glaubenssprung","en":"Faithleap","es":"Salto de Fe","fr":"Ferveur"},"api_id":"48"},{"score":5,"coords":[6107,14092],"type":"camp","name":{"de":"Blautal-Zuflucht","en":"Bluevale Refuge","es":"Refugio Valleazul","fr":"Refuge de bleubal"},"api_id":"49"},{"score":5,"coords":[11441,11583],"type":"camp","name":{"de":"Blauwasser-Tiefland","en":"Bluewater Lowlands","es":"Tierras Bajas de Aguazul","fr":"Basses terres d'Eau-Azur"},"api_id":"50"},{"score":5,"coords":[11456,10238],"type":"camp","name":{"de":"Astralholm","en":"Astralholme","es":"Isleta Astral","fr":"Astralholme"},"api_id":"51"},{"score":5,"coords":[9633,10277],"type":"camp","name":{"de":"Arahs Hoffnung","en":"Arah's Hope","es":"Esperanza de Arah","fr":"Espoir d'Arah"},"api_id":"52"},{"score":5,"coords":[9692,11535],"type":"camp","name":{"de":"Grüntal-Zuflucht","en":"Greenvale Refuge","es":"Refugio de Valleverde","fr":"Refuge de Valvert"},"api_id":"53"},{"score":5,"coords":[7873,12800],"type":"camp","name":{"de":"Nebel-Freistatt","en":"Foghaven","es":"Refugio Neblinoso","fr":"Havre gris"},"api_id":"54"},{"score":5,"coords":[7851,14136],"type":"camp","name":{"de":"Rotwasser-Tiefland","en":"Redwater Lowlands","es":"Tierras Bajas de Aguarroja","fr":"Basses terres de Rubicon"},"api_id":"55"},{"score":5,"coords":[6920,11867],"type":"camp","name":{"de":"Die Titanenpranke","en":"The Titanpaw","es":"La Garra del Titán","fr":"Bras du titan"},"api_id":"56"},{"score":10,"coords":[7517,12673],"type":"tower","name":{"de":"Felsenspitze","en":"Cragtop","es":"Cumbrepeñasco","fr":"Sommet de l'escarpement"},"api_id":"57"},{"score":5,"coords":[13210,12208],"type":"camp","name":{"de":"Götterkunde","en":"Godslore","es":"Sabiduría de los Dioses","fr":"Divination"},"api_id":"58"},{"score":5,"coords":[13277,13454],"type":"camp","name":{"de":"Rottal-Zuflucht","en":"Redvale Refuge","es":"Refugio Vallerojo","fr":"Refuge de Valrouge"},"api_id":"59"},{"score":5,"coords":[15037,12151],"type":"camp","name":{"de":"Sternenhain","en":"Stargrove","es":"Arboleda de las Estrellas","fr":"Bosquet stellaire"},"api_id":"60"},{"score":5,"coords":[15023,13504],"type":"camp","name":{"de":"Grünwasser-Tiefland","en":"Greenwater Lowlands","es":"Tierras Bajas de Aguaverde","fr":"Basses terres d'Eau-Verdoyante"},"api_id":"61"},{"score":0,"coords":[10484,11421],"type":"ruin","name":{"de":"Tempel der Verlorenen Gebete","en":"Temple of Lost Prayers","es":"Templo de las Pelgarias","fr":"Temple des prières perdues"},"api_id":"62"},{"score":0,"coords":[10172,11150],"type":"ruin","name":{"de":"Schlachten-Senke","en":"Battle's Hollow","es":"Hondonada de la Battalla","fr":"Vallon de bataille"},"api_id":"63"},{"score":0,"coords":[10279,10787],"type":"ruin","name":{"de":"Bauers Anwesen","en":"Bauer's Estate","es":"Hacienda de Bauer","fr":"Domaine de Bauer"},"api_id":"64"},{"score":0,"coords":[10750,10845],"type":"ruin","name":{"de":"Obstgarten-Aussichtspunkt","en":"Orchard Overlook","es":"Mirador del Huerto","fr":"Belvédère du Verger"},"api_id":"65"},{"score":0,"coords":[10779,11196],"type":"ruin","name":{"de":"Aufstieg des Schnitzers","en":"Carver's Ascent","es":"Ascenso del Trinchador","fr":"Côte du couteau"},"api_id":"66"},{"score":0,"coords":[14363,13110],"type":"ruin","name":{"de":"Aufstieg des Schnitzers","en":"Carver's Ascent","es":"Ascenso del Trinchador","fr":"Côte du couteau"},"api_id":"67"},{"score":0,"coords":[14332,12759],"type":"ruin","name":{"de":"Obstgarten-Aussichtspunkt","en":"Orchard Overlook","es":"Mirador del Huerto","fr":"Belvédère du Verger"},"api_id":"68"},{"score":0,"coords":[13866,12704],"type":"ruin","name":{"de":"Bauers Anwesen","en":"Bauer's Estate","es":"Hacienda de Bauer","fr":"Domaine de Bauer"},"api_id":"69"},{"score":0,"coords":[13756,13068],"type":"ruin","name":{"de":"Schlachten-Senke","en":"Battle's Hollow","es":"Hondonada de la Battalla","fr":"Vallon de bataille"},"api_id":"70"},{"score":0,"coords":[14068,13344],"type":"ruin","name":{"de":"Tempel der Verlorenen Gebete","en":"Temple of Lost Prayers","es":"Templo de las Pelgarias","fr":"Temple des prières perdues"},"api_id":"71"},{"score":0,"coords":[7196,13754],"type":"ruin","name":{"de":"Aufstieg des Schnitzers","en":"Carver's Ascent","es":"Ascenso del Trinchador","fr":"Côte du couteau"},"api_id":"72"},{"score":0,"coords":[7163,13403],"type":"ruin","name":{"de":"Obstgarten-Aussichtspunkt","en":"Orchard Overlook","es":"Mirador del Huerto","fr":"Belvédère du Verger"},"api_id":"73"},{"score":0,"coords":[6694,13349],"type":"ruin","name":{"de":"Bauers Anwesen","en":"Bauer's Estate","es":"Hacienda de Bauer","fr":"Domaine de Bauer"},"api_id":"74"},{"score":0,"coords":[6591,13715],"type":"ruin","name":{"de":"Schlachten-Senke","en":"Battle's Hollow","es":"Hondonada de la Battalla","fr":"Vallon de bataille"},"api_id":"75"},{"score":0,"coords":[6899,13987],"type":"ruin","name":{"de":"Tempel der Verlorenen Gebete","en":"Temple of Lost Prayers","es":"Templo de las Pelgarias","fr":"Temple des prières perdues"},"api_id":"76"}];
-		for (var i = areaObjects.length - 1; i >= 0; i--) {
-			Areas.insert(areaObjects[i]);
-		};
-	}
+  version: 2,
+  name: "Add WvW Objective IDs for the API.",
+  up: function (){
+    var typeScores = {
+      "Camp":  5,
+      "Tower": 10,
+      "Keep":  25,
+      "Castle":35
+    }
+    areaObjectsCall = HTTP.call('GET','https://api.guildwars2.com/v2/wvw/objectives?ids=all');
+    areaObjects = areaObjectsCall["data"];
+    for (var i = areaObjects.length - 1; i >= 0; i--) {
+      areaObjects[i].api_id = areaObjects[i]["id"];
+      areaObjects[i].score = typeScores[areaObjects[i].type];
+      areaObjects[i].type = areaObjects[i].type.toLowerCase();
+      Areas.insert(areaObjects[i]);
+    }
+  }
 });
 
 Migrations.add({
-	version: 3,
-	name: "Add owner field to objectives.",
-	up: function(){
-		areaObjects = Areas.find().fetch();
-		for (var i = areaObjects.length - 1; i >= 0; i--) {
-			Areas.update(areaObjects[i], {$set: {owner: "neutral"}});
-		};
-	}
+  version: 3,
+  name: "Add owner field to objectives.",
+  up: function(){
+    areaObjects = Areas.find().fetch();
+    for (var i = areaObjects.length - 1; i >= 0; i--) {
+      Areas.update(areaObjects[i], {$set: {owner: "neutral"}});
+    };
+  }
 })

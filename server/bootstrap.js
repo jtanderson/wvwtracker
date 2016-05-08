@@ -47,7 +47,7 @@ Meteor.startup(function(){
   });
 
   var match_id = "";
-  var gom_id = 1007;
+  var gom_id = 1016;
 
   Meteor.setInterval(function(){
     HTTP.call("GET", "https://api.guildwars2.com/v1/wvw/matches.json", {},
@@ -74,7 +74,8 @@ Meteor.startup(function(){
                 if ( db_objective && ['keep','tower','castle','camp'].indexOf(db_objective.type.toLowerCase()) > -1 && db_objective.owner !==  json_objective["owner"].toLowerCase() ){
                   MapEvents.insert({
                     area_id: db_objective._id,
-                    message: db_objective.name + " changed to " + json_objective["owner"] + " from " + db_objective.owner
+                    message: db_objective.name + " changed to " + json_objective["owner"] + " from " + db_objective.owner,
+                    tags: ['owner-change']
                   });
                   Areas.update(db_objective, {$set: {owner: json_objective["owner"].toLowerCase()}});
                 }

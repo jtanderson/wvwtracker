@@ -17,12 +17,13 @@ Template.allAreas.onRendered(
       return map.unproject(coord, map.getMaxZoom());
     }
 
-    var minzoom = 3;
+    var minzoom = 4;
     var Leaflet = L;
+    var maxZoom = 7;
 
     map = L.map("map", {
       minZoom: minzoom,
-      maxZoom: 7,
+      maxZoom: maxZoom,
       crs: L.CRS.Simple,
       dragging: true,
       zoomControl: true,
@@ -33,20 +34,27 @@ Template.allAreas.onRendered(
     map["view"] = "world";
 
     map.on("click", function(e){
-      console.log("You clicked the map at point: " + e.latlng);
+      //console.log("You clicked the map at point: " + e.latlng);
     });
 
     var southWest = [-250, 75];
     var northEast = [-130,250];
+    //var southWest = [0, 4094];
+    //var northEast = [16382, 16382];
+    //console.log(project(southWest));
+    //console.log(project(northEast));
+    southWest = [-123, 40];
+    northEast = [-66, 126];
+
 
     map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
     L.tileLayer("https://tiles{s}.guildwars2.com/2/1/{z}/{x}/{y}.jpg", {
       minZoom: minzoom,
-      maxZoom: 7,
+      maxZoom: maxZoom,
       continuousWorld: true,
       subdomains: [1, 2, 3, 4 ],
-      bounds: new L.LatLngBounds(southWest, northEast)
+      bounds: new L.LatLngBounds(unproject([4000, 32768]), northEast)
     }).addTo(map);
 
     var fileUrl = "https://render.guildwars2.com/file/";
@@ -61,8 +69,8 @@ Template.allAreas.onRendered(
       a.coords = [a.coord[0],a.coord[1]];
 
       if ( ['keep', 'camp', 'tower', 'castle'].indexOf(a.type.toLowerCase()) > -1 ){
-        console.log("Adding: " + a.name);
-        var iconMarker = L.marker(map.unproject(a.coords,6), {icon: L.icon({
+        //console.log("Adding: " + a.name);
+        var iconMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.icon({
           // iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
           iconUrl: '/img/'+a.type.toLowerCase()+"_"+a.owner+"."+fmt,
           iconSize: [32,32]
@@ -92,7 +100,7 @@ Template.allAreas.onRendered(
 
         Tracker.autorun(iconTrackerFn);
 
-        var countMarker = L.marker(map.unproject(a.coords,6), {icon: L.divIcon({
+        var countMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.divIcon({
           // html: template.find('#area_counter_'+a._id).innerHTML,
           html: a.userCount(),
           className: 'areaCounter',
@@ -120,25 +128,26 @@ Template.allAreas.onRendered(
     };
 
     var ebBounds = [
-      [-245.625,138.75],
-      [-195,186.75]
+      [-130,72],
+      [-101,94]
     ];
     var greenHomeBounds = [
-      [-234,87],
-      [-181,129]
+      [-113,44],
+      [-91,64]
     ];
     var redHomeBounds = [
-      [-195,144],
-      [-140,186]
+      [-97,72],
+      [-71,92]
     ];
     var blueHomeBounds = [
-      [-223,199],
-      [-171,243]
+      [-85,100],
+      [-113,120]
     ];
-    var ebMarkerLoc = [-202,164];
-    var greenMarkerLoc = [-178,103.5];
-    var redMarkerLoc = [-137,161];
-    var blueMarkerLoc = [-168,217];
+
+    var ebMarkerLoc = [-101,82];
+    var greenMarkerLoc = [-89,52];
+    var redMarkerLoc = [-69,80];
+    var blueMarkerLoc = [-84,108];
 
     var ebMarker = L.marker(ebMarkerLoc, {
       icon: new L.divIcon({

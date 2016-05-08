@@ -1,57 +1,66 @@
 <head>
-	<title>WvW Coverage</title>
-	<style>
-		body {
-			padding-top: 50px;
-			padding-bottom: 20px;
-		}
-	</style>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+  <title>WvW Coverage</title>
+  <style>
+    body {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
 </head>
 
 <body>
-	{{> nav}}
+  {{> nav}}
 
-	{{renderRouter}}
+  {{renderRouter}}
 </body>
 
 <template name="jumbotron">
-	<!-- Main jumbotron for a primary marketing message or call to action -->
-	<div class="jumbotron">
-		<div class="container">
-			<h1>WvW Map Coverage Monitor</h1>
-			<p>This is the official (prototype) page for the WvW Coverage Monitor. Lovingly crafted by "DasMoose" </p>
-		</div>
-	</div>
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>WvW Map Coverage Monitor</h1>
+      <p>This is the official (prototype) page for the WvW Coverage Monitor. Lovingly crafted by "DasMoose" </p>
+    </div>
+  </div>
 </template>
 
 <template name="loading">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12" style="margin-top: 50px;">
-				{{> spinner}}
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12" style="margin-top: 50px;">
+        {{> spinner}}
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="base">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				{{> yield}}
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {{> yield}}
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="blank">{{> yield}}</template>
 
 <template name="footer">
-	<div class="container">
-		<div class="col-md-12">
-			<hr>
-		</div>
-	</div>
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+         Lala
+        </div>
+      </div>
+    </div>
+  </footer>
 </template>

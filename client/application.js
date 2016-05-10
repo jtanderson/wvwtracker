@@ -63,6 +63,20 @@ Template.allAreas.onRendered(
     var template = Template.instance();
     var selectedIcon = {};
 
+    Session.set("matchup-id", "1-1");
+
+    var matchid = Session.get("matchup-id");
+
+    var matchup = Matchups.findOne({"id": matchid, "current": true});
+
+    var redWorld = Worlds.findOne({"world_id": matchup.worlds.red});
+    var blueWorld = Worlds.findOne({"world_id": matchup.worlds.blue});
+    var greenWorld = Worlds.findOne({"world_id": matchup.worlds.green});
+
+    console.log("Red: "+redWorld.name);
+    console.log("Blue: "+blueWorld.name);
+    console.log("Green: "+greenWorld.name);
+
     var areas = Areas.find({coord: {$exists: true}}).fetch();
     for (var i = areas.length - 1; i >= 0; i--) {
       var a = areas[i];
@@ -70,9 +84,21 @@ Template.allAreas.onRendered(
 
       if ( ['keep', 'camp', 'tower', 'castle'].indexOf(a.type.toLowerCase()) > -1 ){
         //console.log("Adding: " + a.name);
+
+        var matchupArea = MatchupAreas.findOne({"matchup_id": matchid, "area_id": a.api_id});
+        //console.log(matchup);
+        //console.log(a);
+        //console.log(matchupArea);
+        
+        if (!matchupArea){
+          continue;
+        }
+
+        var owner = matchupArea.owner.toLowerCase();
+
         var iconMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.icon({
           // iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
-          iconUrl: '/img/'+a.type.toLowerCase()+"_"+a.owner+"."+fmt,
+          iconUrl: '/img/'+a.type.toLowerCase()+"_"+owner+"."+fmt,
           iconSize: [32,32]
         })});
         iconMarker.addTo(map).bindPopup(
@@ -81,17 +107,19 @@ Template.allAreas.onRendered(
 
         // For some reason reactivity with this doesn't play as nicely as the counter...
         var iconTrackerFn = function(){
+          var tmpMatchId = matchid;
           var tmpArea = areas[i];
           var tmpMarker = iconMarker;
           return function(c){
             var thisArea = Areas.findOne({_id: tmpArea._id});
+            var thisMatchupArea = MatchupAreas.findOne({"matchup_id": tmpMatchId, "area_id": tmpArea.api_id});
             var blinkClass = "";
             if ( ! c.firstRun ){
               blinkClass = " just-changed";
             }
-            var color = thisArea.getOwner();
+            //var color = thisArea.getOwner();
             tmpMarker.setIcon(L.icon({
-              iconUrl: '/img/'+thisArea.type.toLowerCase()+"_"+thisArea.owner+".png",
+              iconUrl: '/img/'+thisArea.type.toLowerCase()+"_"+thisMatchupArea.owner.toLowerCase()+".png",
               iconSize: [32,32],
               className: blinkClass
             }));
@@ -318,7 +346,7 @@ Template.eventLog.helpers({
     if ( Session.get('owner-event-toggle') ){
       inArray = inArray.concat(["owner-change"]);
     }
-    return MapEvents.find({tags: {$in: inArray}}, {sort: {time: -1}, limit: 50});
+    return MapEvents.find({matchup_id: Session.get('matchup-id'), tags: {$in: inArray}}, {sort: {time: -1}, limit: 50});
   }
 });
 

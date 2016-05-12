@@ -63,9 +63,11 @@ Template.allAreas.onRendered(
     var template = Template.instance();
     var selectedIcon = {};
 
-    Session.set("matchup-id", "1-1");
-
     var matchid = Session.get("matchup-id");
+
+    if ( Matchups.find().map(function(doc, ind, c){ return doc.id; }).indexOf(matchid) == -1 ){
+      return;
+    }
 
     var matchup = Matchups.findOne({"id": matchid, "current": true});
 

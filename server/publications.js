@@ -36,3 +36,15 @@ Meteor.publish("matchups", function(){
 Meteor.publish("worlds", function(){
   return Worlds.find();
 });
+
+Meteor.publish("matchupmapdata", function(matchId){
+  console.log("Subscribing to matchId: "+matchId);
+  //check(matchId, String);
+  return [
+    MapEvents.find({matchup_id: matchId}),
+    Matchups.find({id: matchId}),
+    MatchupAreas.find({matchup_id: matchId}),
+    Areas.find(),
+    AreaUsers.find() //TODO: find only the particular instance
+  ];
+});

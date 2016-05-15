@@ -149,5 +149,5 @@ Meteor.startup(function(){
 
   Meteor.setInterval(function(){
     HTTP.call("GET", "https://api.guildwars2.com/v1/wvw/matches.json", {}, newUpdate);
-  }, 10*1000); // Run every 60 seconds
+  }, 6*10*1000); // Run every 60 seconds
 });

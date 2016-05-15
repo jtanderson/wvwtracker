@@ -46,7 +46,6 @@ Template.allAreas.onRendered(
     southWest = [-123, 40];
     northEast = [-66, 126];
 
-
     map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
     L.tileLayer("https://tiles{s}.guildwars2.com/2/1/{z}/{x}/{y}.jpg", {
@@ -63,101 +62,109 @@ Template.allAreas.onRendered(
     var template = Template.instance();
     var selectedIcon = {};
 
-    var matchid = Session.get("matchup-id");
+    var markers = [];
 
-    if ( Matchups.find().map(function(doc, ind, c){ return doc.id; }).indexOf(matchid) == -1 ){
-      return;
-    }
+    var self = this;
+    self.autorun(function(){
+      var matchid = Session.get('matchup-id');
+      console.log('now computing for match: '+matchid);
+
+      self.subscribe("matchupmapdata", matchid, function(){
+        var matchup = Matchups.findOne({current: true});
+        
+        var areas = Areas.find({coord: {$exists: true}}).fetch();
+        for (var i = areas.length - 1; i >= 0; i--) {
+          var a = areas[i];
+          a.coords = [a.coord[0],a.coord[1]];
+
+          if ( ['keep', 'camp', 'tower', 'castle'].indexOf(a.type.toLowerCase()) > -1 && a.map_type != 'EdgeOfTheMists'){
+            var matchupArea = MatchupAreas.findOne({"matchup_id": matchid, "area_id": a.api_id});
+            //console.log(matchup);
+            //console.log(a);
+            //console.log(matchupArea);
+            
+            if (!matchupArea){
+              matchupArea = {};
+              var owner = "neutral";
+            } else {
+              var owner = matchupArea.owner.toLowerCase();
+            }
+
+            if (markers.indexOf(a.api_id) > -1){
+              //console.log("Marker found.");
+            } else {
+              console.log("Adding: " + a.name);
+              var iconMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.icon({
+                // iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
+                iconUrl: '/img/'+a.type.toLowerCase()+"_"+owner+"."+fmt,
+                iconSize: [32,32]
+              })});
+              iconMarker.addTo(map).bindPopup(
+                template.find('#area_popup_'+a._id)
+              );
+              
+              markers.push(a.api_id);
+
+              // For some reason reactivity with this doesn't play as nicely as the counter...
+              var iconTrackerFn = function(){
+                //var tmpMatchId = Session.get('matchup_id');
+                var tmpArea = areas[i];
+                var tmpMarker = iconMarker;
+                return function(c){
+                  var tmpMatchId = Matchups.findOne().id;
+                  var thisArea = Areas.findOne({_id: tmpArea._id});
+                  var thisMatchupArea = MatchupAreas.findOne({"matchup_id": tmpMatchId, "area_id": tmpArea.api_id});
+                  if(!thisMatchupArea){
+                    thisMatchupArea = {owner: "neutral"};
+                  }
+                  var blinkClass = "";
+                  if ( ! c.firstRun ){
+                    blinkClass = " just-changed";
+                  }
+                  //var color = thisArea.getOwner();
+                  tmpMarker.setIcon(L.icon({
+                    iconUrl: '/img/'+thisArea.type.toLowerCase()+"_"+thisMatchupArea.owner.toLowerCase()+".png",
+                    iconSize: [32,32],
+                    className: blinkClass
+                  }));
+                }
+              }();
+
+              Tracker.autorun(iconTrackerFn);
+
+              var countMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.divIcon({
+                // html: template.find('#area_counter_'+a._id).innerHTML,
+                html: a.userCount(),
+                className: 'areaCounter',
+                iconAnchor: [20,20]
+              })});
+
+              countMarker.addTo(map);
+
+              // We need some closure magic...
+              var countTrackerFn = function(){
+                var tmpArea = areas[i];
+                var tmpMarker = countMarker;
+                return function(){
+                  // var count = Session.get('area_count_'+tmpArea._id);
+                  tmpMarker.setIcon(L.divIcon({
+                    html: tmpArea.userCount(),
+                    className: 'areaCounter',
+                    iconAnchor: [20,20]
+                  }));
+                };
+              }();
+
+              Tracker.autorun(countTrackerFn);
+            }
+          }
+        }
+      });
+    });
 
     var matchup = Matchups.findOne({"id": matchid, "current": true});
 
-    var redWorld = Worlds.findOne({"world_id": matchup.worlds.red});
-    var blueWorld = Worlds.findOne({"world_id": matchup.worlds.blue});
-    var greenWorld = Worlds.findOne({"world_id": matchup.worlds.green});
-
-    console.log("Red: "+redWorld.name);
-    console.log("Blue: "+blueWorld.name);
-    console.log("Green: "+greenWorld.name);
-
-    var areas = Areas.find({coord: {$exists: true}}).fetch();
-    for (var i = areas.length - 1; i >= 0; i--) {
-      var a = areas[i];
-      a.coords = [a.coord[0],a.coord[1]];
-
-      if ( ['keep', 'camp', 'tower', 'castle'].indexOf(a.type.toLowerCase()) > -1 ){
-        //console.log("Adding: " + a.name);
-
-        var matchupArea = MatchupAreas.findOne({"matchup_id": matchid, "area_id": a.api_id});
-        //console.log(matchup);
-        //console.log(a);
-        //console.log(matchupArea);
-        
-        if (!matchupArea){
-          continue;
-        }
-
-        var owner = matchupArea.owner.toLowerCase();
-
-        var iconMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.icon({
-          // iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
-          iconUrl: '/img/'+a.type.toLowerCase()+"_"+owner+"."+fmt,
-          iconSize: [32,32]
-        })});
-        iconMarker.addTo(map).bindPopup(
-          template.find('#area_popup_'+a._id)
-        );
-
-        // For some reason reactivity with this doesn't play as nicely as the counter...
-        var iconTrackerFn = function(){
-          var tmpMatchId = matchid;
-          var tmpArea = areas[i];
-          var tmpMarker = iconMarker;
-          return function(c){
-            var thisArea = Areas.findOne({_id: tmpArea._id});
-            var thisMatchupArea = MatchupAreas.findOne({"matchup_id": tmpMatchId, "area_id": tmpArea.api_id});
-            var blinkClass = "";
-            if ( ! c.firstRun ){
-              blinkClass = " just-changed";
-            }
-            //var color = thisArea.getOwner();
-            tmpMarker.setIcon(L.icon({
-              iconUrl: '/img/'+thisArea.type.toLowerCase()+"_"+thisMatchupArea.owner.toLowerCase()+".png",
-              iconSize: [32,32],
-              className: blinkClass
-            }));
-          }
-        }();
-
-        Tracker.autorun(iconTrackerFn);
-
-        var countMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.divIcon({
-          // html: template.find('#area_counter_'+a._id).innerHTML,
-          html: a.userCount(),
-          className: 'areaCounter',
-          iconAnchor: [20,20]
-        })});
-
-        countMarker.addTo(map);
-
-        // We need some closure magic...
-        var countTrackerFn = function(){
-          var tmpArea = areas[i];
-          var tmpMarker = countMarker;
-          return function(){
-            // var count = Session.get('area_count_'+tmpArea._id);
-            tmpMarker.setIcon(L.divIcon({
-              html: tmpArea.userCount(),
-              className: 'areaCounter',
-              iconAnchor: [20,20]
-            }));
-          };
-        }();
-
-        Tracker.autorun(countTrackerFn);
-      }
-    };
-
-    var ebBounds = [
+       var ebBounds = [
       [-130,72],
       [-101,94]
     ];

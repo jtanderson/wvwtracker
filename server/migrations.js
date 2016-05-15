@@ -62,7 +62,7 @@ Migrations.add({
     matches = Matchups.find({current: true}).fetch();
     if ( matches.length == 0 ){
       matchIdsCall = HTTP.call('GET', 'https://api.guildwars2.com/v2/wvw/matches');
-      matchIds = matchesCall["data"];
+      matchIds = matchIdsCall["data"];
       for(var i = matchIds.length - 1; i >= 0; i--){
         matchCall = HTTP.call('GET', 'https://api.guildwars2.com/v2/wvw/matches/'+matchIds[i]);
         matchObj = matchCall["data"];

@@ -24,4 +24,15 @@ Meteor.publish("roles", function(){
 
 Meteor.publish("mapevents", function(){
   return MapEvents.find();
-})
+});
+
+Meteor.publish("matchups", function(){
+  return [
+    Matchups.find(),
+    MatchupAreas.find()
+  ]
+});
+
+Meteor.publish("worlds", function(){
+  return Worlds.find();
+});

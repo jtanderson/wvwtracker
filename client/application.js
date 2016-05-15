@@ -63,38 +63,30 @@ Template.allAreas.onRendered(
     var template = Template.instance();
     var selectedIcon = {};
 
-    Session.set("matchup-id", "1-1");
+    //Session.set("matchup-id", "1-1");
 
-    var matchid = Session.get("matchup-id");
+    //var matchid = Session.get("matchup-id");
 
-    var matchup = Matchups.findOne({"id": matchid, "current": true});
-
-    var redWorld = Worlds.findOne({"world_id": matchup.worlds.red});
-    var blueWorld = Worlds.findOne({"world_id": matchup.worlds.blue});
-    var greenWorld = Worlds.findOne({"world_id": matchup.worlds.green});
-
-    console.log("Red: "+redWorld.name);
-    console.log("Blue: "+blueWorld.name);
-    console.log("Green: "+greenWorld.name);
+    //var matchup = Matchups.findOne({"id": matchid, "current": true});
 
     var areas = Areas.find({coord: {$exists: true}}).fetch();
     for (var i = areas.length - 1; i >= 0; i--) {
       var a = areas[i];
       a.coords = [a.coord[0],a.coord[1]];
 
-      if ( ['keep', 'camp', 'tower', 'castle'].indexOf(a.type.toLowerCase()) > -1 ){
+      if ( ['keep', 'camp', 'tower', 'castle'].indexOf(a.type.toLowerCase()) > -1 && a.map_type != "EdgeOfTheMists" ){
         //console.log("Adding: " + a.name);
 
-        var matchupArea = MatchupAreas.findOne({"matchup_id": matchid, "area_id": a.api_id});
+        //var matchupArea = MatchupAreas.findOne({"matchup_id": matchid, "area_id": a.api_id});
         //console.log(matchup);
         //console.log(a);
         //console.log(matchupArea);
         
-        if (!matchupArea){
-          continue;
-        }
+        //if (!matchupArea){
+        //  continue;
+        //}
 
-        var owner = matchupArea.owner.toLowerCase();
+        var owner = "neutral";
 
         var iconMarker = L.marker(map.unproject(a.coords, maxZoom), {icon: L.icon({
           // iconUrl: fileUrl + fileSpecs['wvw_'+a.type]['signature'] +"/"+ fileSpecs['wvw_'+a.type]['file_id'] +"."+ fmt,
@@ -107,12 +99,16 @@ Template.allAreas.onRendered(
 
         // For some reason reactivity with this doesn't play as nicely as the counter...
         var iconTrackerFn = function(){
-          var tmpMatchId = matchid;
+          //var tmpMatchId = matchid;
           var tmpArea = areas[i];
           var tmpMarker = iconMarker;
           return function(c){
+            var tmpMatchId = Session.get('matchup-id');
             var thisArea = Areas.findOne({_id: tmpArea._id});
             var thisMatchupArea = MatchupAreas.findOne({"matchup_id": tmpMatchId, "area_id": tmpArea.api_id});
+            if (!thisMatchupArea){
+              thisMatchupArea = {owner: "neutral"};
+            }
             var blinkClass = "";
             if ( ! c.firstRun ){
               blinkClass = " just-changed";

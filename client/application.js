@@ -62,7 +62,7 @@ Template.allAreas.onRendered(
     var template = Template.instance();
     var selectedIcon = {};
 
-    //Session.set("matchup-id", "1-1");
+    Session.set("matchup-id", "");
 
     //var matchid = Session.get("matchup-id");
 
@@ -353,7 +353,13 @@ Template.eventLog.events({
 
 Template.matchupModal.helpers({
   matchups: function(){
-    return Matchups.find();
+    return Matchups.find({current: true});
+  },
+  naMatchups: function(){
+    return Matchups.find({current: true, id: {$regex: /^1-/}}, {sort: ['id']});
+  },
+  euMatchups: function(){
+    return Matchups.find({current: true, id: {$regex: /^2-/}}, {sort: ['id']});
   }
 });
 
@@ -371,7 +377,8 @@ Template.matchupBadge.helpers({
 
 Template.matchupBadge.events({
   'click .matchup-select': function(e){
-    Session.set('matchup-id', $(e.target).attr('id'));
+    var id = $(e.target).closest('.matchup-select').attr('id');
+    Session.set('matchup-id', id);
     $('#matchupModal').modal('hide');
   }
 });

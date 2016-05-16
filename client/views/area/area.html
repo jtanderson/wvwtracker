@@ -102,9 +102,7 @@
           <p>Right now there is one main feature: you can add your name (honor system for now) to an objective by clicking that objective icon on the map, putting your name in the box, and clicking "Add". This designates that you are upgrading that objective, or scouting/roaming nearby. When finished, kindly remove your name from the list by clicking the minus sign next to your name.</p>
 
           <p><b>Update!</b> I've added color tracking based on current owner (udpates roughly every 10 seconds) and an Event Log with tag filtering, below the map. To make it easier to to scroll down to the event log, scroll to zoom has been disabled on the map but one can still use the controls in the top-left and pan around as desired. There are also custom zoom buttons for each BL map. Enjoy!</p>
-
           <hr>
-
           <p>Questions? Check the <a href="/about">About page</a> or contact DasMoose ingame or on the GoM server website.</p>
         </div>
         <div class="modal-footer">
@@ -125,7 +123,15 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            {{#each matchups}}
+            {{#each naMatchups}}
+              <div class="col-md-6">
+                {{> matchupBadge}}
+              </div>
+            {{/each}}
+        </div>
+        <div class="row"><hr></div>
+        <div class="row">
+            {{#each euMatchups}}
               <div class="col-md-6">
                 {{> matchupBadge}}
               </div>
@@ -142,10 +148,13 @@
 </template>
 
 <template name="matchupBadge">
-  <span class="matchup-badge">
-    <div class="red-team">{{redWorld}}</div>
-    <div class="blue-team">{{blueWorld}}</div>
-    <div class="green-team">{{greenWorld}}</div>
-    <div class="btn btn-primary matchup-select" id={{id}}>Use</div>
+  <span class="matchup-badge matchup-select" id={{id}}>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="red-team">{{redWorld}}</div>
+        <div class="blue-team">{{blueWorld}}</div>
+        <div class="green-team">{{greenWorld}}</div>
+      </div>
+    </div>
   </span>
 </template>

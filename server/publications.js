@@ -23,7 +23,7 @@ Meteor.publish("roles", function(){
 });
 
 Meteor.publish("mapevents", function(){
-  return MapEvents.find();
+  return MapEvents.find({}, {limit: 100});
 });
 
 Meteor.publish("matchups", function(){

@@ -118,3 +118,11 @@ body {
 .red-team {
   color: red;
 }
+
+.matchup-select > .panel {
+  cursor: pointer;
+}
+
+.matchup-select > .panel:hover {
+  background: #d3f3f3;
+}

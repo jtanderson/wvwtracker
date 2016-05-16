@@ -46,7 +46,6 @@ Template.allAreas.onRendered(
     southWest = [-123, 40];
     northEast = [-66, 126];
 
-
     map.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
     L.tileLayer("https://tiles{s}.guildwars2.com/2/1/{z}/{x}/{y}.jpg", {
@@ -350,7 +349,32 @@ Template.eventLog.events({
   'change #user-event-toggle, change #owner-event-toggle': function(e){
     Session.set($(e.target).attr('id'), $(e.target).is(':checked'));
   }
-})
+});
+
+Template.matchupModal.helpers({
+  matchups: function(){
+    return Matchups.find();
+  }
+});
+
+Template.matchupBadge.helpers({
+  redWorld: function(){
+    return this.getTeam('red');
+  },
+  blueWorld: function(){
+    return this.getTeam('blue');
+  },
+  greenWorld: function(){
+    return this.getTeam('green');
+  }
+});
+
+Template.matchupBadge.events({
+  'click .matchup-select': function(e){
+    Session.set('matchup-id', $(e.target).attr('id'));
+    $('#matchupModal').modal('hide');
+  }
+});
 
 Template.admin.events({
 });

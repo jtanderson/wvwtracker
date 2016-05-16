@@ -9,6 +9,8 @@
   {{> eventLog}}
 
   {{> firstTimeModal}}
+
+  {{> matchupModal}}
 </template>
 
 <template name="areaPopup">
@@ -95,7 +97,6 @@
           <p>This is a prototype of a tool to keep track of WvW scouting, upgrading, and roaming coverage in Guild Wars 2. Contingent on usuage/interest, development will be ongoing.</p>
 
           <p>This was developed and tested almost exclusivly in Google Chrome 44. Any reasonably modern browser should work but if you have problems, this could be a factor.</p>
-
           <h2>How to use:</h2>
 
           <p>Right now there is one main feature: you can add your name (honor system for now) to an objective by clicking that objective icon on the map, putting your name in the box, and clicking "Add". This designates that you are upgrading that objective, or scouting/roaming nearby. When finished, kindly remove your name from the list by clicking the minus sign next to your name.</p>
@@ -112,4 +113,39 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div>
+</template>
+
+<template name="matchupModal">
+<div class="modal fade" id="matchupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">WvW Matchups</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            {{#each matchups}}
+              <div class="col-md-6">
+                {{> matchupBadge}}
+              </div>
+            {{/each}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template name="matchupBadge">
+  <span class="matchup-badge">
+    <div class="red-team">{{redWorld}}</div>
+    <div class="blue-team">{{blueWorld}}</div>
+    <div class="green-team">{{greenWorld}}</div>
+    <div class="btn btn-primary matchup-select" id={{id}}>Use</div>
+  </span>
 </template>

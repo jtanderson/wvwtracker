@@ -106,3 +106,15 @@ body {
 .objective_popup {
   min-width: 200px;
 }
+
+.blue-team{
+  color: blue;
+}
+
+.green-team {
+  color: green;
+}
+
+.red-team {
+  color: red;
+}

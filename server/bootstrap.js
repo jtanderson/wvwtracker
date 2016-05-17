@@ -106,8 +106,8 @@ Meteor.startup(function(){
           //console.log("Matchup not found, inserting...");
           updateObj["api_id"] = matches[i]['wvw_match_id'];
           updateObj["current"] = true;
-          Matchups.insert(updateObj);
-          newId = Matchups.update({"start_time": {$ne: updateObj.start_time}}, {$set: {"current": false}});
+          newId = Matchups.insert(updateObj);
+          Matchups.update({"start_time": {$ne: updateObj.start_time}}, {$set: {"current": false}});
           matchObj = Matchups.find({_id: newId});
         }
 
